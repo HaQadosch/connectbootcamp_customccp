@@ -12,8 +12,9 @@ describe('<App />', () => {
     ReactDOM.unmountComponentAtNode(div);
   });
 
-  it('renders Learn React message', () => {
-    const { getByText } = render(<App />);
-    expect(getByText('Learn React')).toBeInTheDocument();
+  it('loads and display <App />', () => {
+    const { getByTestId } = render(<App />);
+    const app = getByTestId('App');
+    expect(app).toBeInTheDocument();
   });
 });
