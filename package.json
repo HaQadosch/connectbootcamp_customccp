@@ -1,0 +1,25 @@
+{
+  "name": "connectbootcamp_customccp",
+  "version": "1.0.0",
+  "description": "Integrate ccp into a custom webpage",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaQadosch/connectbootcamp_customccp.git"
+  },
+  "keywords": [
+    "ccp"
+  ],
+  "author": "HaQadosch",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HaQadosch/connectbootcamp_customccp/issues"
+  },
+  "homepage": "https://github.com/HaQadosch/connectbootcamp_customccp#readme",
+  "dependencies": {
+    "create-react-app": "^3.0.1"
+  }
+}
