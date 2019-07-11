@@ -1,26 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import './AgentConsole.css';
-
+import { connect } from 'amazon-connect-streams';
 interface IAgentConsoleProps {}
 
 declare global {
   interface Window {
     connect: {
-      core: {
-        initCCP: (container: React.MutableRefObject<HTMLElement> | HTMLElement | null, init: unknown) => void;
-      };
-      contact: (arg: ContactedT) => void;
+      core: connect.Core;
     };
   }
 }
-
-type ContactedT = {
-  onConnecting: (arg: OnConnectedT) => void;
-};
-
-type OnConnectedT = {
-  contactId: string;
-};
 
 const initCCP: (
   init: unknown,
@@ -36,25 +25,7 @@ const initConf = {
 
 const listenToContact = () => {
   console.log('listenToContact');
-  const onConnectingCB = (onConnected: OnConnectedT): void => {
-    const { contactId, ...rest } = onConnected;
-    console.log('onConnecting', { contactId, rest });
-  };
-  const contactCB = (contacted: ContactedT): void => {
-    console.log('contact', { contacted });
-    contacted.onConnecting(onConnectingCB);
-  };
-  const foo = (onConnected: OnConnectedT) => {
-    const { contactId, ...rest } = onConnected;
-    console.log({ contactId, rest });
-  };
-  // window.connect.contact(contactCB)
-  // window.connect.contact(contacted => {
-  // console.log('contact', { contacted })
-  // contacted.onConnecting(onConnected => {
-  //   console.log('onConnecting', { onConnected })
-  // })
-  // })
+  window.connect.contact(1);
 };
 
 export const AgentConsole: React.FC<IAgentConsoleProps> = props => {
@@ -62,7 +33,6 @@ export const AgentConsole: React.FC<IAgentConsoleProps> = props => {
   // const ccpDom = window.document.getElementById('ccpContainer')
 
   useEffect(() => {
-    console.log('useEffect', { connect: window.connect });
     try {
       if (window.connect && ccpContainerRef) {
         initCCP(initConf)(ccpContainerRef.current);
