@@ -1,42 +1,28 @@
 import React, { useEffect, useRef } from 'react';
 import './AgentConsole.css';
-import { connect } from 'amazon-connect-streams';
+
 interface IAgentConsoleProps {}
 
-declare global {
-  interface Window {
-    connect: {
-      core: connect.Core;
-    };
-  }
-}
+const initCCP: (init: connect.InitCCPOptions) => (container: HTMLElement) => void = initConf => anchorTag =>
+  connect.core.initCCP(anchorTag, initConf);
 
-const initCCP: (
-  init: unknown,
-) => (container: React.MutableRefObject<HTMLElement> | HTMLElement | null) => void = initConf => anchorTag =>
-  window.connect.core.initCCP(anchorTag, initConf);
 const initConf = {
-  ccpURL: 'https://ecscc-demo.awsapps.com/connect/ccp#/',
+  ccpUrl: 'https://ecscc-demo.awsapps.com/connect/ccp#/',
   softphone: {
     allowFramedSoftphone: true,
     disabledRingtone: false,
   },
 };
 
-const listenToContact = () => {
-  console.log('listenToContact');
-  window.connect.contact(1);
-};
-
 export const AgentConsole: React.FC<IAgentConsoleProps> = props => {
-  const ccpContainerRef = useRef(null);
+  const ccpContainerRef = useRef(window.document.getElementById('ccpContainer') as HTMLElement);
   // const ccpDom = window.document.getElementById('ccpContainer')
 
   useEffect(() => {
     try {
-      if (window.connect && ccpContainerRef) {
+      if (connect && ccpContainerRef) {
+        console.log({ connect, ccpContainerRef });
         initCCP(initConf)(ccpContainerRef.current);
-        listenToContact();
       }
     } catch (error) {
       console.error({ error, ccpContainerRef });
